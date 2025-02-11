@@ -82,7 +82,12 @@ function intialize() {
         }
         document.body.appendChild(keyboardRow);
     }
-    
+    //keydown worsk only for backspace
+    document.addEventListener("keydown",(e) => {
+        if(e.code == "Backspace") {
+            processInput(e); 
+        }
+    })
 
     // Listen for Key Press
     document.addEventListener("keyup", (e) => {
@@ -115,6 +120,8 @@ function processInput(e) {
         }
         let currTile = document.getElementById(row.toString() + '-' + col.toString());
         currTile.innerText = "";
+        document.getElementById("answer").innerText = "";
+
     }
 
     else if (e.code == "Enter") {
@@ -165,22 +172,22 @@ function update() {
     const animation_duration=500;
 
     let letterCount = {};
-    let hintArray ={}; //keep track of letter frequency, ex) KENNY -> {K:1, E:1, N:2, Y: 1}
+    let secretWordArray ={}; //keep track of letter frequency, ex) KENNY -> {K:1, E:1, N:2, Y: 1}
     for (let i = 0; i < word.length; i++) {
         let letter = word[i];
 
         if (letterCount[letter]) {
            letterCount[letter] += 1;
-           hintArray[letter] += 1;
+           secretWordArray[letter] += 1;
         } 
         else {
            letterCount[letter] = 1;
-           hintArray[letter] = 1;
+           secretWordArray[letter] = 1;
         }
     }
 
     // console.log(letterCount);
-    console.log(hintArray);
+    console.log(secretWordArray);
 
     //first iteration, check all the correct ones first
     for (let c = 0; c < width; c++) {
@@ -200,7 +207,7 @@ function update() {
             // guessedLetters.push(currTile.innerText);
             
              
-           if(hintArray[letter]==guessedLetters[letter])
+           if(secretWordArray[letter]==guessedLetters[letter])
                 {
                     
                  }
@@ -238,9 +245,9 @@ function update() {
             //Is it in the word?         //make sure we don't double count
             if (word.includes(letter) && letterCount[letter] > 0) {
                 currTile.classList.add("present");
-                if(hintArray[letter]==guessedLetters[letter])
+                if(secretWordArray[letter]==guessedLetters[letter])
                 {
-                    
+                    // do nothing because if this condition is satisfied, it means that the letter has been found in the secret word in the right position itself so you need not do anything
                 }
                 else if (guessedLetters[letter]) {
                     guessedLetters[letter] += 1;
@@ -274,7 +281,7 @@ function update() {
         if(correct==width)
         {
             gameOver=true;
-            alert("Congradulations you are the champion");
+            alert("Congratulations you are the champion");
             
         }
         
@@ -286,9 +293,9 @@ function update() {
       console.log(guessedLetters)
             
             
-        for (let key in hintArray) {
+        for (let key in secretWordArray) {
             if (!(key in guessedLetters)) {
-              hintletters[key] = hintArray[key]; // Add to result only if the key is not in objB
+              hintletters[key] = secretWordArray[key]; // Add to result only if the key is not in objB
             }
           }
             console.log(hintletters)
