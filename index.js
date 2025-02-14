@@ -19,7 +19,7 @@ console.log(word);
 var guessedLetters={}
 var hintletters={}
 
-
+//hi
 window.onload = function(){
     intialize();
 }
