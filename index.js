@@ -52,7 +52,7 @@ function intialize() {
         keyboardRow.classList.add("keyboard-row");
 
         for (let j = 0; j < currRow.length; j++) {
-            let keyTile = document.createElement("div");
+            let keyTile = document.createElement("button");
 
             let key = currRow[j];
             keyTile.innerText = key;
@@ -91,8 +91,10 @@ function intialize() {
 
     // Listen for Key Press
     document.addEventListener("keyup", (e) => {
-        processInput(e);
-    })
+        if(!(e.code == "Backspace")) {
+            processInput(e); 
+        }
+    })
 }
 
 function processKey() {
